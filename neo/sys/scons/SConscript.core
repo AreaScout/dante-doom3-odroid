@@ -321,7 +321,7 @@ else:
 	sound_env.Append( CPPPATH = '../linux/oss/include' )
 	sound_list = [ '../linux/sound.cpp' ]
 if ( ALSA != '0' ):
-	if (g_os == 'Linux' ):
+	if (g_os == 'Linux' or g_os == 'Linux64'):
 		sound_list.append( '../../sys/linux/sound_alsa.cpp' )
 	else:
 		sound_env.Append( CPPDEFINES = 'NO_ALSA' )
@@ -352,7 +352,7 @@ else:
 ffmpeg_lib = []	
 	
 if ( local_dedicated == 0 ):
-	if g_os == 'Linux':
+	if g_os == 'Linux' or g_os == 'Linux64':
 		local_env.Append( LIBS = [ 'X11' ] )
 		local_env.Append( LIBPATH = [ '/usr/lib' ] )
 		local_env.Append( LIBS = [ 'openal' ] )

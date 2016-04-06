@@ -66,7 +66,7 @@ If you have questions concerning this license or the applicable additional terms
 #elif defined(__ppc__)
 #define	BUILD_STRING				"linux-ppc"
 #define CPUSTRING					"ppc"
-#elif defined(__arm__)
+#elif defined(__arm__) || defined(__aarch64__)
 #define	BUILD_STRING				"linux-arm"
 #define BUILD_OS_ID					2
 #define CPUSTRING					"arm"

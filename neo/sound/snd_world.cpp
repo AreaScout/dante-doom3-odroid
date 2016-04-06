@@ -31,8 +31,10 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "snd_local.h"
 
-extern bool g_intro;
-
+extern "C"
+{
+    bool g_intro = false;
+}
 /*
 ==================
 idSoundWorldLocal::Init

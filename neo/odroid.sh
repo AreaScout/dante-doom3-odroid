@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LINK_PATH="/usr/local/share/applications/doom3.desktop"
+LINK_PATH="/usr/share/applications/doom3.desktop"
 CONFIG_URL="https://github.com/AreaScout/dante-doom3-odroid/raw/gh-pages/config/DoomConfig.cfg"
 SHADER_URL="https://github.com/AreaScout/gl2progs.git"
 FFMPEG_URL="https://github.com/FFmpeg/FFmpeg.git"

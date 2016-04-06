@@ -189,6 +189,11 @@ bool idImageOpts::operator==( const idImageOpts& opts )
 
 #endif
 
+extern "C"
+{
+    extern bool g_intro;
+}
+
 class idCinematicLocal : public idCinematic
 {
 	public:
@@ -504,7 +509,6 @@ struct buffer_data
 };
 
 struct buffer_data bd = { 0 };
-bool g_intro = false;
 
 static int read_packed( void *opaque, uint8_t *buf, int buf_size )
 {

@@ -647,7 +647,7 @@ bool idCinematicLocal::InitFromFFMPEGFile( const char* qpath, bool amilooping )
 	framePos = -1;
 	common->Printf( "Loaded FFMPEG file: '%s', looping=%d %dx%d, %f FPS, %f sec\n", qpath, looping, dec_ctx->width, dec_ctx->height, frameRate, durationSec );
 	image = ( byte* )Mem_Alloc( dec_ctx->width * dec_ctx->height * 4 * 2);
-	avpicture_fill( ( AVPicture* )frame2, image, PIX_FMT_BGR32, dec_ctx->width, dec_ctx->height );
+	avpicture_fill( ( AVPicture* )frame2, image, AV_PIX_FMT_BGR32, dec_ctx->width, dec_ctx->height );
 	if( img_convert_ctx )
 	{
 		sws_freeContext( img_convert_ctx );
@@ -655,7 +655,7 @@ bool idCinematicLocal::InitFromFFMPEGFile( const char* qpath, bool amilooping )
 #if LIBAVUTIL_VERSION_INT >= AV_VERSION_INT(52,91,100)
 	dec_ctx->pix_fmt = AV_PIX_FMT_YUV444P; // just use this format
 #endif
-	img_convert_ctx = sws_getContext( dec_ctx->width, dec_ctx->height, dec_ctx->pix_fmt, dec_ctx->width, dec_ctx->height, PIX_FMT_BGR32, SWS_BICUBIC, NULL, NULL, NULL );
+	img_convert_ctx = sws_getContext( dec_ctx->width, dec_ctx->height, dec_ctx->pix_fmt, dec_ctx->width, dec_ctx->height, AV_PIX_FMT_BGR32, SWS_BICUBIC, NULL, NULL, NULL );
 	
 	startTime = 0;
 	ImageForTime( 0 );

@@ -299,9 +299,9 @@ elif ( BUILD == 'release' ):
 	# -fschedule-insns2: implicit at -O2
 	# no-unsafe-math-optimizations: that should be on by default really. hit some wonko bugs in physics code because of that
 	if ( g_os == 'Linux' ):
-		OPTCPPFLAGS = [ '-O3', '-marm', '-march=armv7-a', '-mfpu=neon', '-ffast-math', '-fno-unsafe-math-optimizations', '-fomit-frame-pointer', '-fvisibility=hidden' ]
+		OPTCPPFLAGS = [ '-O3', '-marm', '-march=armv7-a', '-mfpu=neon', '-ffast-math', '-fno-unsafe-math-optimizations', '-fomit-frame-pointer', '-fvisibility=hidden', '-DGLES2']
 	elif ( g_os == 'Linux64' ):
-		OPTCPPFLAGS = [ '-O3', '-ffast-math', '-fno-unsafe-math-optimizations', '-fomit-frame-pointer', '-fvisibility=hidden' ]
+		OPTCPPFLAGS = [ '-O3', '-ffast-math', '-fno-unsafe-math-optimizations', '-fomit-frame-pointer', '-fvisibility=hidden', '-DGLES2']
 	else:
 		OPTCPPFLAGS = [ '-O3', '-march=native', '-ffast-math', '-fno-unsafe-math-optimizations', '-fomit-frame-pointer' ]
 	if ( ID_MCHECK == '0' ):

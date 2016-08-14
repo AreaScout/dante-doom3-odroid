@@ -100,7 +100,7 @@ void RB_PrepareStageTexturing(const shaderStage_t *pStage,  const drawSurf_t *su
 		                       vertexCache.Position(surf->dynamicTexCoords));
 	}
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 #if 0
 	if (pStage->texture.texgen == TG_SCREEN) {
 		glEnable(GL_TEXTURE_GEN_S);
@@ -250,7 +250,7 @@ void RB_FinishStageTexturing(const shaderStage_t *pStage, const drawSurf_t *surf
 		GL_VertexAttribPointer(offsetof(shaderProgram_t, attr_TexCoord), 2, GL_FLOAT, false, sizeof(idDrawVert), (void *)&ac->st);
 	}
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 #if 0
 	if (pStage->texture.texgen == TG_SCREEN) {
 		glDisable(GL_TEXTURE_GEN_S);
@@ -336,7 +336,7 @@ void RB_T_FillDepthBuffer(const drawSurf_t *surf)
 	shader = surf->material;
 
 #warning TODO
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	// update the clip plane if needed
 	if (backEnd.viewDef->numClipPlanes && surf->space != backEnd.currentSpace) {
 		GL_SelectTexture(1);
@@ -517,7 +517,7 @@ void RB_STD_FillDepthBuffer(drawSurf_t **drawSurfs, int numDrawSurfs)
 	GL_UseProgram(&depthFillShader);
 
 #warning unimplemented in GLES shaders
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	// enable the second texture for mirror plane clipping if needed
 	if (backEnd.viewDef->numClipPlanes) {
 		GL_SelectTexture(1);
@@ -545,7 +545,7 @@ void RB_STD_FillDepthBuffer(drawSurf_t **drawSurfs, int numDrawSurfs)
 
 	RB_RenderDrawSurfListWithFunction(drawSurfs, numDrawSurfs, RB_T_FillDepthBuffer);
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	if (backEnd.viewDef->numClipPlanes) {
 		GL_SelectTexture(1);
 		globalImages->BindNull();
@@ -787,7 +787,7 @@ void RB_STD_T_RenderShaderPasses(const drawSurf_t *surf)
 
 			GL_State(pStage->drawStateBits);
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 			glBindProgramARB(GL_VERTEX_PROGRAM_ARB, newStage->vertexProgram);
 			glEnable(GL_VERTEX_PROGRAM_ARB);
 
@@ -822,7 +822,7 @@ void RB_STD_T_RenderShaderPasses(const drawSurf_t *surf)
 			// draw it
 			RB_DrawElementsWithCounters(tri);
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 			for (int i = 1 ; i < newStage->numFragmentProgramImages ; i++) {
 				if (newStage->fragmentProgramImages[i]) {
 					GL_SelectTexture(i);
@@ -1000,7 +1000,7 @@ int RB_STD_DrawShaderPasses(drawSurf_t **drawSurfs, int numDrawSurfs)
 	}
 
 	GL_Cull(CT_FRONT_SIDED);
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	glColor4f(1, 1, 1, 1);
 #endif
 
@@ -1087,7 +1087,7 @@ static void RB_T_Shadow(const drawSurf_t *surf)
 		numIndexes = tri->numIndexes;
 	}
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	// set depth bounds
 	if (glConfig.depthBoundsTestAvailable && r_useDepthBoundsTest.GetBool()) {
 		qglDepthBoundsEXT(surf->scissorRect.zmin, surf->scissorRect.zmax);
@@ -1212,7 +1212,7 @@ void RB_StencilShadowPass(const drawSurf_t *drawSurfs)
 
 	glStencilFunc(GL_ALWAYS, 1, 255);
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	if (glConfig.depthBoundsTestAvailable && r_useDepthBoundsTest.GetBool()) {
 		glEnable(GL_DEPTH_BOUNDS_TEST_EXT);
 	}
@@ -1226,7 +1226,7 @@ void RB_StencilShadowPass(const drawSurf_t *drawSurfs)
 		glDisable(GL_POLYGON_OFFSET_FILL);
 	}
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	if (glConfig.depthBoundsTestAvailable && r_useDepthBoundsTest.GetBool()) {
 		glDisable(GL_DEPTH_BOUNDS_TEST_EXT);
 	}
@@ -1255,7 +1255,7 @@ RB_T_BlendLight
 static void RB_T_BlendLight(const drawSurf_t *surf)
 {
 #warning RB_T_BlendLight
-#if 0	//!defined(GL_ES_VERSION_2_0)
+#if 0	//!defined(GLES2)
 	const srfTriangles_t *tri;
 
 	tri = surf->geo;
@@ -1302,7 +1302,7 @@ mode to the framebuffer, instead of interacting with the surface texture
 static void RB_BlendLight(const drawSurf_t *drawSurfs,  const drawSurf_t *drawSurfs2)
 {
 #warning RB_BlendLight
-#if 0	//!defined(GL_ES_VERSION_2_0)
+#if 0	//!defined(GLES2)
 	const idMaterial	*lightShader;
 	const shaderStage_t	*stage;
 	int					i;
@@ -1389,7 +1389,7 @@ RB_T_BasicFog
 static void RB_T_BasicFog(const drawSurf_t *surf)
 {
 #warning
-#if 0	//!defined(GL_ES_VERSION_2_0)
+#if 0	//!defined(GLES2)
 	if (backEnd.currentSpace != surf->space) {
 		idPlane	local;
 
@@ -1430,7 +1430,7 @@ RB_FogPass
 static void RB_FogPass(const drawSurf_t *drawSurfs,  const drawSurf_t *drawSurfs2)
 {
 #warning
-#if 0	//!defined(GL_ES_VERSION_2_0)
+#if 0	//!defined(GLES2)
 	const srfTriangles_t *frustumTris;
 	drawSurf_t			ds;
 	const idMaterial	*lightShader;
@@ -1553,7 +1553,7 @@ RB_STD_FogAllLights
 void RB_STD_FogAllLights(void)
 {
 #warning
-#if 0	//!defined(GL_ES_VERSION_2_0)
+#if 0	//!defined(GLES2)
 	viewLight_t	*vLight;
 
 	if (r_skipFogLights.GetBool() || r_showOverDraw.GetInteger() != 0
@@ -1628,7 +1628,7 @@ a floating point value
 void RB_STD_LightScale(void)
 {
 #warning
-#if 0	//!defined(GL_ES_VERSION_2_0)
+#if 0	//!defined(GLES2)
 	float	v, f;
 
 	if (backEnd.overBright == 1.0f) {
@@ -1655,7 +1655,7 @@ void RB_STD_LightScale(void)
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	glOrtho(0, 1, 0, 1, -1, 1);
 #else
 	glOrthof(0, 1, 0, 1, -1, 1);
@@ -1728,7 +1728,7 @@ void	RB_STD_DrawView(void)
 
 	// main light renderer
 	switch (tr.backEndRenderer) {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 		case BE_ARB2:
 			RB_ARB2_DrawInteractions();
 			break;

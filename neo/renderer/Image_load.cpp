@@ -31,7 +31,7 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "tr_local.h"
 
-#if defined(GL_ES_VERSION_2_0)
+#if defined(GLES2)
 #define GL_RGB8	GL_RGBA
 #define GL_RGBA8	GL_RGBA
 #define GL_ALPHA8 GL_ALPHA
@@ -42,7 +42,7 @@ If you have questions concerning this license or the applicable additional terms
 PROBLEM: compressed textures may break the zero clamp rule!
 */
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 static bool FormatIsDXT(int internalFormat)
 {
 	if (internalFormat < GL_COMPRESSED_RGB_S3TC_DXT1_EXT
@@ -74,7 +74,7 @@ Used for determining memory utilization
 int idImage::BitsForInternalFormat(int internalFormat) const
 {
 	switch (internalFormat) {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 		case GL_INTENSITY8:
 		case 1:
 			return 8;
@@ -115,7 +115,7 @@ int idImage::BitsForInternalFormat(int internalFormat) const
 			return 8;			// not sure
 #endif
 		default:
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 			common->Error("R_BitsForInternalFormat: BAD FORMAT:%i", internalFormat);
 #else
 			return 8;
@@ -190,7 +190,7 @@ void idImage::UploadCompressedNormalMap(int width, int height, const byte *rgba,
 		}
 	}
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	if (glConfig.sharedTexturePaletteAvailable) {
 		glTexImage2D(GL_TEXTURE_2D,
 		              mipLevel,
@@ -238,7 +238,7 @@ This may need to scan six cube map images
 GLenum idImage::SelectInternalFormat(const byte **dataPtrs, int numDataPtrs, int width, int height,
                                      textureDepth_t minimumDepth) const
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	int		i, c;
 	const byte	*scan;
 	int		rgbOr, rgbAnd, aOr, aAnd;
@@ -293,7 +293,7 @@ GLenum idImage::SelectInternalFormat(const byte **dataPtrs, int numDataPtrs, int
 
 	// catch normal maps first
 	if (minimumDepth == TD_BUMP) {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 		if (globalImages->image_useCompression.GetBool() && globalImages->image_useNormalCompression.GetInteger() == 1 && glConfig.sharedTexturePaletteAvailable) {
 			// image_useNormalCompression should only be set to 1 on nv_10 and nv_20 paths
 			return GL_COLOR_INDEX8_EXT;
@@ -315,7 +315,7 @@ GLenum idImage::SelectInternalFormat(const byte **dataPtrs, int numDataPtrs, int
 
 	if (minimumDepth == TD_SPECULAR) {
 		// we are assuming that any alpha channel is unintentional
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 		if (glConfig.textureCompressionAvailable) {
 			return GL_COMPRESSED_RGB_S3TC_DXT1_EXT;
 		} else
@@ -327,7 +327,7 @@ GLenum idImage::SelectInternalFormat(const byte **dataPtrs, int numDataPtrs, int
 
 	if (minimumDepth == TD_DIFFUSE) {
 		// we might intentionally have an alpha channel for alpha tested textures
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 		if (glConfig.textureCompressionAvailable) {
 			if (!needAlpha) {
 				return GL_COMPRESSED_RGB_S3TC_DXT1_EXT;
@@ -360,7 +360,7 @@ GLenum idImage::SelectInternalFormat(const byte **dataPtrs, int numDataPtrs, int
 			return GL_RGB8;			// four bytes
 		}
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 		if (glConfig.textureCompressionAvailable) {
 			return GL_COMPRESSED_RGB_S3TC_DXT1_EXT;	// half byte
 		}
@@ -371,7 +371,7 @@ GLenum idImage::SelectInternalFormat(const byte **dataPtrs, int numDataPtrs, int
 
 	// cases with alpha
 	if (!rgbaDiffer) {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 		if (minimumDepth != TD_HIGH_QUALITY && glConfig.textureCompressionAvailable) {
 			return GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;	// one byte
 		}
@@ -396,7 +396,7 @@ GLenum idImage::SelectInternalFormat(const byte **dataPtrs, int numDataPtrs, int
 		return GL_RGBA8;	// four bytes
 	}
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	if (glConfig.textureCompressionAvailable) {
 		return GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;	// one byte
 	}
@@ -437,7 +437,7 @@ void idImage::SetImageFilterAndRepeat() const
 			common->FatalError("R_CreateImage: bad texture filter");
 	}
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	if (glConfig.anisotropicAvailable) {
 		// only do aniso filtering on mip mapped images
 		if (filter == TF_DEFAULT) {
@@ -448,7 +448,7 @@ void idImage::SetImageFilterAndRepeat() const
 	}
 #endif
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	if (glConfig.textureLODBiasAvailable) {
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS_EXT, globalImages->textureLODBias);
 	}
@@ -727,7 +727,7 @@ void idImage::GenerateImage(const byte *pic, int width, int height,
 	Bind();
 
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	if (internalFormat == GL_COLOR_INDEX8_EXT) {
 		/*
 		if ( depth == TD_BUMP ) {
@@ -777,7 +777,7 @@ void idImage::GenerateImage(const byte *pic, int width, int height,
 		}
 
 		// upload the mip map
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 		if (internalFormat == GL_COLOR_INDEX8_EXT) {
 			UploadCompressedNormalMap(scaled_width, scaled_height, scaledBuffer, miplevel);
 		} else
@@ -799,7 +799,7 @@ void idImage::GenerateImage(const byte *pic, int width, int height,
 }
 
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 /*
 ==================
 Generate3DImage
@@ -971,7 +971,7 @@ void idImage::GenerateCubeImage(const byte *pic[6], int size,
 		return;
 	}
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	if (! glConfig.cubeMapAvailable) {
 		return;
 	}
@@ -1132,7 +1132,7 @@ versions of everything to speed future load times.
 */
 void idImage::WritePrecompressedImage()
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 
 	// Always write the precompressed image if we're making a build
 	if (!com_makingBuild.GetBool()) {
@@ -1439,7 +1439,7 @@ If fullLoad is false, only the small mip levels of the image will be loaded
 */
 bool idImage::CheckPrecompressedImage(bool fullLoad)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	if (!glConfig.isInitialized || !glConfig.textureCompressionAvailable) {
 		return false;
 	}
@@ -1547,7 +1547,7 @@ has completed
 */
 void idImage::UploadPrecompressedImage(byte *data, int len)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	ddsFileHeader_t	*header = (ddsFileHeader_t *)(data + 4);
 
 	// ( not byte swapping dwReserved1 dwReserved2 )
@@ -1862,7 +1862,7 @@ void idImage::Bind()
 
 	// enable or disable apropriate texture modes
 	if (tmu->textureType != type && (backEnd.glState.currenttmu <	glConfig.maxTextureUnits)) {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 		if (tmu->textureType == TT_CUBIC) {
 			glDisable(GL_TEXTURE_CUBE_MAP);
 		} else if (tmu->textureType == TT_3D) {
@@ -1895,7 +1895,7 @@ void idImage::Bind()
 			glBindTexture(GL_TEXTURE_CUBE_MAP, texnum);
 		}
 	}
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	else if (type == TT_3D) {
 		if (tmu->current3DMap != texnum) {
 			tmu->current3DMap = texnum;
@@ -1970,7 +1970,7 @@ void idImage::BindFragment()
 	else if (type == TT_CUBIC) {
 		glBindTexture(GL_TEXTURE_CUBE_MAP, texnum);
 	}
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	else if (type == TT_3D) {
 		glBindTexture(GL_TEXTURE_3D, texnum);
 	}
@@ -2001,7 +2001,7 @@ void idImage::CopyFramebuffer(int x, int y, int imageWidth, int imageHeight, boo
 	GetDownsize(imageWidth, imageHeight);
 	GetDownsize(potWidth, potHeight);
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	glReadBuffer(GL_BACK);
 #endif
 
@@ -2071,7 +2071,7 @@ void idImage::CopyDepthbuffer(int x, int y, int imageWidth, int imageHeight)
 	// if the size isn't a power of 2, the image must be increased in size
 	int	potWidth, potHeight;
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	GLenum depthComponent = GL_DEPTH_COMPONENT24;
 #else
 	GLenum depthComponent = GL_DEPTH_COMPONENT24_OES;
@@ -2279,7 +2279,7 @@ void idImage::Print() const
 	}
 
 	switch (internalFormat) {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 		case GL_INTENSITY8:
 		case 1:
 			common->Printf("I     ");

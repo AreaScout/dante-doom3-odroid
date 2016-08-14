@@ -31,7 +31,7 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "tr_local.h"
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 #define glBindBuffer	glBindBufferARB
 #define glBufferData	glBufferDataARB
 

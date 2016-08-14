@@ -165,7 +165,7 @@ class idImage
 		void		GenerateImage(const byte *pic, int width, int height,
 		                              textureFilter_t filter, bool allowDownSize,
 		                              textureRepeat_t repeat, textureDepth_t depth);
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 		void		Generate3DImage(const byte *pic, int width, int height, int depth,
 		                                textureFilter_t filter, bool allowDownSize,
 		                                textureRepeat_t repeat, textureDepth_t minDepth);

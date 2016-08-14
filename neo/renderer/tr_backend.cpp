@@ -59,7 +59,7 @@ void RB_SetDefaultGLState(void)
 
 	glClearDepthf(1.0f);
 	glClear(GL_DEPTH_BUFFER_BIT);
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	glColor4f(1,1,1,1);
 #endif
 
@@ -70,7 +70,7 @@ void RB_SetDefaultGLState(void)
 	glEnable(GL_BLEND);
 	glEnable(GL_SCISSOR_TEST);
 	glEnable(GL_CULL_FACE);
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	glDisable(GL_LIGHTING);
 #endif
 	glDisable(GL_STENCIL_TEST);
@@ -79,7 +79,7 @@ void RB_SetDefaultGLState(void)
 	glDepthFunc(GL_ALWAYS);
 
 	glCullFace(GL_FRONT_AND_BACK);
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	glShadeModel(GL_SMOOTH);
 #endif
 
@@ -87,7 +87,7 @@ void RB_SetDefaultGLState(void)
 		glScissor(0, 0, glConfig.vidWidth, glConfig.vidHeight);
 	}
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	for (i = glConfig.maxTextureUnits - 1 ; i >= 0 ; i--) {
 		GL_SelectTexture(i);
 
@@ -148,7 +148,7 @@ void GL_SelectTexture(int unit)
 #endif
 
 	glActiveTexture(GL_TEXTURE0 + unit);
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	glClientActiveTexture(GL_TEXTURE0 + unit);
 #endif
 	RB_LogComment("glActiveTextureARB( %i );\nglClientActiveTextureARB( %i );\n", unit, unit);
@@ -492,7 +492,7 @@ void GL_State(int stateBits)
 	//
 	// fill/line mode
 	//
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	if (diff & GLS_POLYMODE_LINE) {
 		if (stateBits & GLS_POLYMODE_LINE) {
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -505,7 +505,7 @@ void GL_State(int stateBits)
 	//
 	// alpha test
 	//
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	if (diff & GLS_ATEST_BITS) {
 		switch (stateBits & GLS_ATEST_BITS) {
 			case 0:
@@ -561,7 +561,7 @@ void RB_SetGL2D(void)
 	}
 
 	// always assume 640x480 virtual coordinates
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(0, 640, 480, 0, 0, 1);
@@ -604,7 +604,7 @@ static void	RB_SetBuffer(const void *data)
 
 	backEnd.frameCount = cmd->frameCount;
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	glDrawBuffer(cmd->buffer);
 #endif
 
@@ -638,7 +638,7 @@ was there.  This is used to test for texture thrashing.
 */
 void RB_ShowImages(void)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	int		i;
 	idImage	*image;
 	float	x, y, w, h;

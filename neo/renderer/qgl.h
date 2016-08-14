@@ -45,6 +45,9 @@ If you have questions concerning this license or the applicable additional terms
 #include <EGL/eglext.h>
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
+#ifndef GLES2
+#define GLES2
+#endif
 #endif
 
 #include "esUtil.h"
@@ -68,7 +71,7 @@ extern void (GL_APIENTRY *qglActiveStencilFaceEXT)(GLenum face);
 extern void (GL_APIENTRY *qglStencilOpSeparateATI)(GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass);
 extern void (GL_APIENTRY *qglStencilFuncSeparateATI)(GLenum frontfunc, GLenum backfunc, GLint ref, GLuint mask);
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 // GL_ARB_texture_compression + GL_S3_s3tc
 extern void (GL_APIENTRY *qglCompressedTexImage2DARB)(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid *data);
 extern void (GL_APIENTRY *qglGetCompressedTexImageARB)(GLenum target, GLint level, GLvoid *img);

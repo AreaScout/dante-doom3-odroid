@@ -205,7 +205,7 @@ idCVar r_materialOverride("r_materialOverride", "", CVAR_RENDERER, "overrides al
 
 idCVar r_debugRenderToTexture("r_debugRenderToTexture", "0", CVAR_RENDERER | CVAR_INTEGER, "");
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 // GL_ARB_texture_compression + GL_S3_s3tc
 void (GL_APIENTRY *qglCompressedTexImage2DARB)(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid *data);
 void (GL_APIENTRY *qglGetCompressedTexImageARB)(GLenum target, GLint level, GLvoid *img);
@@ -239,7 +239,7 @@ R_CheckPortableExtensions
 static void R_CheckPortableExtensions(void)
 {
 	glConfig.glVersion = atof(glConfig.version_string);
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	if (!glConfig.glVersion >= 3.0) {
 		common->Error(common->GetLanguageDict()->GetString("#str_06780"));
 	}
@@ -248,11 +248,11 @@ static void R_CheckPortableExtensions(void)
 	// GL_ARB_multitexture
 	glConfig.multitextureAvailable = R_CheckExtension("GL_ARB_multitexture");
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	if (glConfig.multitextureAvailable)
 #endif
 	{
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 		glGetIntegerv(GL_MAX_TEXTURE_UNITS_ARB, (GLint *)&glConfig.maxTextureUnits);
 #else
 		glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, (GLint *)&glConfig.maxTextureUnits);
@@ -266,7 +266,7 @@ static void R_CheckPortableExtensions(void)
 			glConfig.multitextureAvailable = false;	// shouldn't ever happen
 		}
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 		glGetIntegerv(GL_MAX_TEXTURE_COORDS_ARB, (GLint *)&glConfig.maxTextureCoords);
 		glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS_ARB, (GLint *)&glConfig.maxTextureImageUnits);
 #else
@@ -292,7 +292,7 @@ static void R_CheckPortableExtensions(void)
 
 	// GL_ARB_texture_compression + GL_S3_s3tc
 	// DRI drivers may have GL_ARB_texture_compression but no GL_EXT_texture_compression_s3tc
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	if (R_CheckExtension("GL_ARB_texture_compression") && R_CheckExtension("GL_EXT_texture_compression_s3tc")) {
 		glConfig.textureCompressionAvailable = true;
 		qglCompressedTexImage2DARB = (void (GL_APIENTRY *)(GLenum, GLint, GLenum, GLsizei, GLsizei, GLint, GLsizei, const GLvoid *))GLimp_ExtensionPointer("glCompressedTexImage2DARB");
@@ -303,7 +303,7 @@ static void R_CheckPortableExtensions(void)
 		glConfig.textureCompressionAvailable = false;
 	}
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	// GL_EXT_texture_filter_anisotropic
 	glConfig.anisotropicAvailable = R_CheckExtension("GL_EXT_texture_filter_anisotropic");
 
@@ -352,7 +352,7 @@ static void R_CheckPortableExtensions(void)
 	// GL_ARB_shading_language_100
 	glConfig.GLSLAvailable = R_CheckExtension("GL_ARB_shading_language_100");
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	// GL_EXT_depth_bounds_test
 	glConfig.depthBoundsTestAvailable = R_CheckExtension("EXT_depth_bounds_test");
 
@@ -517,12 +517,12 @@ void R_InitOpenGL(void)
 
 	// parse our vertex and fragment programs, possibly disably support for
 	// one of the paths if there was an error
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	R_ARB2_Init();
 #endif
 	R_GLSL_Init();
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	cmdSystem->AddCommand("reloadARBprograms", R_ReloadARBPrograms_f, CMD_FL_RENDERER, "reloads ARB programs");
 	R_ReloadARBPrograms_f(idCmdArgs());
 #endif
@@ -573,7 +573,7 @@ void GL_CheckErrors(void)
 			case GL_INVALID_OPERATION:
 				strcpy(s, "GL_INVALID_OPERATION");
 				break;
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 			case GL_STACK_OVERFLOW:
 				strcpy(s, "GL_STACK_OVERFLOW");
 				break;
@@ -1041,7 +1041,7 @@ void R_ReadTiledPixels(int width, int height, byte *buffer, renderView_t *ref = 
 				h = height - yo;
 			}
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 			glReadBuffer(GL_FRONT);
 #endif
 			glReadPixels(0, 0, w, h, GL_RGB, GL_UNSIGNED_BYTE, temp);
@@ -1294,7 +1294,7 @@ void R_StencilShot(void)
 
 	byte *byteBuffer = (byte *)Mem_Alloc(pix);
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	GLenum stencilIndex = GL_STENCIL_INDEX;
 #else
 	GLenum stencilIndex = GL_STENCIL_INDEX4_OES;
@@ -1884,7 +1884,7 @@ R_InitCommands
 */
 void R_InitCommands(void)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	cmdSystem->AddCommand("MakeMegaTexture", idMegaTexture::MakeMegaTexture_f, CMD_FL_RENDERER|CMD_FL_CHEAT, "processes giant images");
 #endif
 	cmdSystem->AddCommand("sizeUp", R_SizeUp_f, CMD_FL_RENDERER, "makes the rendered view larger");

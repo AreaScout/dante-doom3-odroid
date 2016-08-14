@@ -85,7 +85,7 @@ RB_DrawBounds
 */
 void RB_DrawBounds(const idBounds &bounds)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	if (bounds.IsCleared()) {
 		return;
 	}
@@ -127,7 +127,7 @@ RB_SimpleSurfaceSetup
 */
 void RB_SimpleSurfaceSetup(const drawSurf_t *drawSurf)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	// change the matrix if needed
 	if (drawSurf->space != backEnd.currentSpace) {
 		glLoadMatrixf(drawSurf->space->modelViewMatrix);
@@ -153,7 +153,7 @@ RB_SimpleWorldSetup
 void RB_SimpleWorldSetup(void)
 {
 	backEnd.currentSpace = &backEnd.viewDef->worldSpace;
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	glLoadMatrixf(backEnd.viewDef->worldSpace.modelViewMatrix);
 #endif
 
@@ -176,7 +176,7 @@ stenciling will matter.
 */
 void RB_PolygonClear(void)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	glPushMatrix();
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 	glLoadIdentity();
@@ -202,7 +202,7 @@ RB_ShowDestinationAlpha
 */
 void RB_ShowDestinationAlpha(void)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	GL_State(GLS_SRCBLEND_DST_ALPHA | GLS_DSTBLEND_ZERO | GLS_DEPTHMASK | GLS_DEPTHFUNC_ALWAYS);
 	glColor3f(1, 1, 1);
 	RB_PolygonClear();
@@ -218,7 +218,7 @@ Debugging tool to see what values are in the stencil buffer
 */
 void RB_ScanStencilBuffer(void)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	int		counts[256];
 	int		i;
 	byte	*stencilReadback;
@@ -255,7 +255,7 @@ Print an overdraw count based on stencil index values
 */
 void RB_CountStencilBuffer(void)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	int		count;
 	int		i;
 	byte	*stencilReadback;
@@ -288,7 +288,7 @@ stencil buffer.  Stencil of 0 = black, 1 = red, 2 = green,
 */
 static void R_ColorByStencilBuffer(void)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	int		i;
 	static float	colors[8][3] = {
 		{0,0,0},
@@ -328,7 +328,7 @@ RB_ShowOverdraw
 */
 void RB_ShowOverdraw(void)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	const idMaterial 	*material;
 	int					i;
 	drawSurf_t * *		drawSurfs;
@@ -416,7 +416,7 @@ the resulting color shading from red at 0 to green at 128 to blue at 255
 */
 void RB_ShowIntensity(void)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	byte	*colorReadback;
 	int		i, j, c;
 
@@ -457,7 +457,7 @@ void RB_ShowIntensity(void)
 	GL_State(GLS_DEPTHFUNC_ALWAYS);
 	glPushMatrix();
 	glLoadIdentity();
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	glOrtho(0, 1, 0, 1, -1, 1);
 #else
 	glOrthof(0, 1, 0, 1, -1, 1);
@@ -484,7 +484,7 @@ Draw the depth buffer as colors
 */
 void RB_ShowDepthBuffer(void)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	void	*depthReadback;
 
 	if (!r_showDepth.GetBool()) {
@@ -496,7 +496,7 @@ void RB_ShowDepthBuffer(void)
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	glOrtho(0, 1, 0, 1, -1, 1);
 #else
 	glOrthof(0, 1, 0, 1, -1, 1);
@@ -541,7 +541,7 @@ based on how many lights are effecting it
 */
 void RB_ShowLightCount(void)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	int		i;
 	const drawSurf_t	*surf;
 	const viewLight_t	*vLight;
@@ -607,7 +607,7 @@ plane extends from, allowing you to see doubled edges
 */
 void RB_ShowSilhouette(void)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	int		i;
 	const drawSurf_t	*surf;
 	const viewLight_t	*vLight;
@@ -695,7 +695,7 @@ and count up the total fill usage
 */
 static void RB_ShowShadowCount(void)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	int		i;
 	const drawSurf_t	*surf;
 	const viewLight_t	*vLight;
@@ -780,7 +780,7 @@ RB_T_RenderTriangleSurfaceAsLines
 */
 void RB_T_RenderTriangleSurfaceAsLines(const drawSurf_t *surf)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	const srfTriangles_t *tri = surf->geo;
 
 	if (!tri->verts) {
@@ -811,7 +811,7 @@ Debugging tool
 */
 static void RB_ShowTris(drawSurf_t **drawSurfs, int numDrawSurfs)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	modelTrace_t mt;
 	idVec3 end;
 
@@ -881,7 +881,7 @@ static void RB_ShowSurfaceInfo(drawSurf_t **drawSurfs, int numDrawSurfs)
 		return;
 	}
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	globalImages->BindNull();
 	glDisable(GL_TEXTURE_2D);
@@ -927,7 +927,7 @@ Debugging tool
 */
 static void RB_ShowViewEntitys(viewEntity_t *vModels)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	if (!r_showViewEntitys.GetBool()) {
 		return;
 	}
@@ -960,7 +960,7 @@ static void RB_ShowViewEntitys(viewEntity_t *vModels)
 	for (; vModels ; vModels = vModels->next) {
 		idBounds	b;
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 		glLoadMatrixf(vModels->modelViewMatrix);
 #endif
 
@@ -1005,7 +1005,7 @@ green if they have a negative texture area, or blue if degenerate area
 */
 static void RB_ShowTexturePolarity(drawSurf_t **drawSurfs, int numDrawSurfs)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	int		i, j;
 	drawSurf_t	*drawSurf;
 	const srfTriangles_t	*tri;
@@ -1082,7 +1082,7 @@ Shade materials that are using unsmoothed tangents
 */
 static void RB_ShowUnsmoothedTangents(drawSurf_t **drawSurfs, int numDrawSurfs)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	int		i, j;
 	drawSurf_t	*drawSurf;
 	const srfTriangles_t	*tri;
@@ -1143,7 +1143,7 @@ Shade a triangle by the RGB colors of its tangent space
 */
 static void RB_ShowTangentSpace(drawSurf_t **drawSurfs, int numDrawSurfs)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	int		i, j;
 	drawSurf_t	*drawSurf;
 	const srfTriangles_t	*tri;
@@ -1206,7 +1206,7 @@ Draw each triangle with the solid vertex colors
 */
 static void RB_ShowVertexColor(drawSurf_t **drawSurfs, int numDrawSurfs)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	int		i, j;
 	drawSurf_t	*drawSurf;
 	const srfTriangles_t	*tri;
@@ -1259,7 +1259,7 @@ Debugging tool
 */
 static void RB_ShowNormals(drawSurf_t **drawSurfs, int numDrawSurfs)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	int			i, j;
 	drawSurf_t	*drawSurf;
 	idVec3		end;
@@ -1363,7 +1363,7 @@ Debugging tool
 */
 static void RB_AltShowNormals(drawSurf_t **drawSurfs, int numDrawSurfs)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	int			i, j, k;
 	drawSurf_t	*drawSurf;
 	idVec3		end;
@@ -1445,7 +1445,7 @@ Draw texture vectors in the center of each triangle
 */
 static void RB_ShowTextureVectors(drawSurf_t **drawSurfs, int numDrawSurfs)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	int			i, j;
 	drawSurf_t	*drawSurf;
 	const srfTriangles_t	*tri;
@@ -1548,7 +1548,7 @@ Draw lines from each vertex to the dominant triangle center
 */
 static void RB_ShowDominantTris(drawSurf_t **drawSurfs, int numDrawSurfs)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	int			i, j;
 	drawSurf_t	*drawSurf;
 	const srfTriangles_t	*tri;
@@ -1615,7 +1615,7 @@ Debugging tool
 */
 static void RB_ShowEdges(drawSurf_t **drawSurfs, int numDrawSurfs)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	int			i, j, k, m, n, o;
 	drawSurf_t	*drawSurf;
 	const srfTriangles_t	*tri;
@@ -1725,7 +1725,7 @@ r_showLights 3	: also draw edges of each volume
 */
 void RB_ShowLights(void)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	const idRenderLightLocal	*light;
 	int					count;
 	srfTriangles_t		*tri;
@@ -1805,7 +1805,7 @@ Debugging tool, won't work correctly with SMP or when mirrors are present
 */
 void RB_ShowPortals(void)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	if (!r_showPortals.GetBool()) {
 		return;
 	}
@@ -1831,7 +1831,7 @@ RB_ClearDebugText
 */
 void RB_ClearDebugText(int time)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	int			i;
 	int			num;
 	debugText_t	*text;
@@ -1875,7 +1875,7 @@ RB_AddDebugText
 */
 void RB_AddDebugText(const char *text, const idVec3 &origin, float scale, const idVec4 &color, const idMat3 &viewAxis, const int align, const int lifetime, const bool depthTest)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	debugText_t *debugText;
 
 	if (rb_numDebugText < MAX_DEBUG_TEXT) {
@@ -1901,7 +1901,7 @@ RB_DrawTextLength
 */
 float RB_DrawTextLength(const char *text, float scale, int len)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	int i, num, index, charIndex;
 	float spacing, textLen = 0.0f;
 
@@ -1953,7 +1953,7 @@ RB_DrawText
 */
 static void RB_DrawText(const char *text, const idVec3 &origin, float scale, const idVec4 &color, const idMat3 &viewAxis, const int align)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	int i, j, len, num, index, charIndex, line;
 	float textLen, spacing;
 	idVec3 org, p1, p2;
@@ -2040,7 +2040,7 @@ RB_ShowDebugText
 */
 void RB_ShowDebugText(void)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	int			i;
 	int			width;
 	debugText_t	*text;
@@ -2102,7 +2102,7 @@ RB_ClearDebugLines
 */
 void RB_ClearDebugLines(int time)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	int			i;
 	int			num;
 	debugLine_t	*line;
@@ -2139,7 +2139,7 @@ RB_AddDebugLine
 */
 void RB_AddDebugLine(const idVec4 &color, const idVec3 &start, const idVec3 &end, const int lifeTime, const bool depthTest)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	debugLine_t *line;
 
 	if (rb_numDebugLines < MAX_DEBUG_LINES) {
@@ -2160,7 +2160,7 @@ RB_ShowDebugLines
 */
 void RB_ShowDebugLines(void)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	int			i;
 	int			width;
 	debugLine_t	*line;
@@ -2234,7 +2234,7 @@ RB_ClearDebugPolygons
 */
 void RB_ClearDebugPolygons(int time)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	int				i;
 	int				num;
 	debugPolygon_t	*poly;
@@ -2272,7 +2272,7 @@ RB_AddDebugPolygon
 */
 void RB_AddDebugPolygon(const idVec4 &color, const idWinding &winding, const int lifeTime, const bool depthTest)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	debugPolygon_t *poly;
 
 	if (rb_numDebugPolygons < MAX_DEBUG_POLYGONS) {
@@ -2292,7 +2292,7 @@ RB_ShowDebugPolygons
 */
 void RB_ShowDebugPolygons(void)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	int				i, j;
 	debugPolygon_t	*poly;
 
@@ -2361,7 +2361,7 @@ RB_TestGamma
 
 void RB_TestGamma(void)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	byte	image[G_HEIGHT][G_WIDTH][4];
 	int		i, j;
 	int		c, comp;
@@ -2447,7 +2447,7 @@ void RB_TestGamma(void)
 	glPushMatrix();
 	glLoadIdentity();
 	glDisable(GL_TEXTURE_2D);
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	glOrtho(0, 1, 0, 1, -1, 1);
 #else
 	glOrthof(0, 1, 0, 1, -1, 1);
@@ -2468,7 +2468,7 @@ RB_TestGammaBias
 */
 static void RB_TestGammaBias(void)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	byte	image[G_HEIGHT][G_WIDTH][4];
 
 	if (r_testGammaBias.GetInteger() <= 0) {
@@ -2508,7 +2508,7 @@ static void RB_TestGammaBias(void)
 	glPushMatrix();
 	glLoadIdentity();
 	glDisable(GL_TEXTURE_2D);
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	glOrtho(0, 1, 0, 1, -1, 1);
 #else
 	glOrthof(0, 1, 0, 1, -1, 1);
@@ -2530,7 +2530,7 @@ Display a single image over most of the screen
 */
 void RB_TestImage(void)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	idImage	*image;
 	int		max;
 	float	w, h;
@@ -2571,7 +2571,7 @@ void RB_TestImage(void)
 	glColor3f(1, 1, 1);
 	glPushMatrix();
 	glLoadIdentity();
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	glOrtho(0, 1, 0, 1, -1, 1);
 #else
 	glOrthof(0, 1, 0, 1, -1, 1);
@@ -2662,7 +2662,7 @@ RB_ShutdownDebugTools
 */
 void RB_ShutdownDebugTools(void)
 {
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	for (int i = 0; i < MAX_DEBUG_POLYGONS; i++) {
 		rb_debugPolygons[i].winding.Clear();
 	}

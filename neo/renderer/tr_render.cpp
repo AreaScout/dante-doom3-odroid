@@ -418,7 +418,7 @@ void RB_FinishStageTexture(const textureStage_t *texture, const drawSurf_t *surf
 		                       (void *)&(((idDrawVert *)vertexCache.Position(surf->geo->ambientCache))->st));
 	}
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	if (texture->texgen == TG_REFLECT_CUBE) {
 		glDisable(GL_TEXTURE_GEN_S);
 		glDisable(GL_TEXTURE_GEN_T);

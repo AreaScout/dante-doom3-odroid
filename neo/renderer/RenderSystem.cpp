@@ -966,7 +966,7 @@ void idRenderSystemLocal::CaptureRenderToFile(const char *fileName, bool fixAlph
 	guiModel->Clear();
 	R_IssueRenderCommands();
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	glReadBuffer(GL_BACK);
 #endif
 

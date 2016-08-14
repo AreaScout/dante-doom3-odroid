@@ -531,7 +531,7 @@ void R_ARB2_Init(void)
 {
 	glConfig.allowARB2Path = false;
 
-#if !defined(GL_ES_VERSION_2_0)
+#if !defined(GLES2)
 	common->Printf("---------- R_ARB2_Init ----------\n");
 
 	if (!glConfig.ARBVertexProgramAvailable || !glConfig.ARBFragmentProgramAvailable) {

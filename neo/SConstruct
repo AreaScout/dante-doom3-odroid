@@ -303,7 +303,7 @@ elif ( BUILD == 'release' ):
 	elif ( g_os == 'Linux64' ):
 		OPTCPPFLAGS = [ '-O3', '-ffast-math', '-fno-unsafe-math-optimizations', '-fomit-frame-pointer', '-fvisibility=hidden', '-DGLES2']
 	else:
-		OPTCPPFLAGS = [ '-O3', '-march=native', '-ffast-math', '-fno-unsafe-math-optimizations', '-fomit-frame-pointer' ]
+		OPTCPPFLAGS = [ '-O3', '-march=native', '-ffast-math', '-fno-unsafe-math-optimizations', '-fomit-frame-pointer', '-DGLES2' ]
 	if ( ID_MCHECK == '0' ):
 		ID_MCHECK = '2'
 else:

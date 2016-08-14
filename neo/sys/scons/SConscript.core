@@ -362,8 +362,8 @@ if ( local_dedicated == 0 ):
 		local_env.Append( LIBS = [ 'GL' ] )
 	if g_decoder == 'ffmpeg':
 		local_env.Append( LIBPATH = [ '/usr/local/lib' ] )
-		ffmpeg_lib += [ '../../FFmpeg/libavcodec/libavcodec.a', '../../FFmpeg/libavformat/libavformat.a', '../../FFmpeg/libavutil/libavutil.a', '../../FFmpeg/libswscale/libswscale.a', '../../FFmpeg/libswresample/libswresample.a' ]
-		local_env.Append( LIBS = [ 'z', 'va', 'bz2', 'lzma' ] )
+		ffmpeg_lib += [  '../../FFmpeg/libavformat/libavformat.a', '../../FFmpeg/libavcodec/libavcodec.a', '../../FFmpeg/libavutil/libavutil.a', '../../FFmpeg/libswscale/libswscale.a', '../../FFmpeg/libswresample/libswresample.a' ]
+		local_env.Append( LIBS = [ 'z', 'bz2', 'lzma' ] )
 
 source_list = core_list
 source_list += idlib_objects

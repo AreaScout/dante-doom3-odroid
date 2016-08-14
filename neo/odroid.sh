@@ -39,7 +39,7 @@ then
 		git clone --depth 1 $FFMPEG_URL
 		cd $CUR_DIR/FFmpeg
 		echo -e "\nBuilding FFmpeg, this can take a while"
-		./configure --disable-programs --enable-neon --enable-thumb --enable-pthreads
+		./configure --disable-programs --disable-vaapi --enable-neon --enable-thumb --enable-pthreads
 		make -j5 V=0
 		if [ $? = "0" ]; then
 			echo -e "\nBuild successfully finished"

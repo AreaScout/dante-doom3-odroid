@@ -21,13 +21,8 @@ fi
 
 export PATH=/usr/bin:$PATH
 export ARCH=arm-linux-gnueabihf
-if [ ! -f /usr/bin/g++-4.9 ] && [ ! -f /usr/bin/gcc-4.9 ]; then
-	export CXX=g++
-	export CC=gcc
-else
-	export CXX=g++-4.9
-	export CC=gcc-4.9
-fi
+export CXX=g++
+export CC=gcc
 
 read -p "Do you wish to build doom3 to play video with ffmpeg support ?" -n 1 -r
 echo

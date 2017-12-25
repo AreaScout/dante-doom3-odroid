@@ -36,8 +36,9 @@ then
     export USE_FFMPEG=1
 	if [ ! -d $CUR_DIR/FFmpeg ]; then
 		echo 'neo/FFmpeg' >> ../.gitignore
-		git clone --depth 1 $FFMPEG_URL
+		git clone -b "release/3.1" $FFMPEG_URL
 		cd $CUR_DIR/FFmpeg
+		git reset --hard "4275b27"
 		echo -e "\nBuilding FFmpeg, this can take a while"
 		./configure --disable-programs --disable-vaapi --enable-pthreads
 		make -j5 V=0
